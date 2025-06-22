@@ -13,8 +13,8 @@ export default function VolumeSlider() {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        sideOffset={6}
-        className="w-10 bg-white flex flex-col items-center gap-1 pb-1"
+        sideOffset={8}
+        className="w-10 bg-white/90 flex flex-col items-center gap-1 pb-1"
       >
         <Slider
           defaultValue={[50]}

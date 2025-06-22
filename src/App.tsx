@@ -10,7 +10,9 @@ function App() {
 
   return (
     <div className="h-screen w-screen" style={backgroundStyles}>
-      <Taskbar />
+      <div className="w-full flex flex-col items-center justify-center">
+        <Taskbar />
+      </div>
     </div>
   );
 }
