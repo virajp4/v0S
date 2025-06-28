@@ -1,5 +1,8 @@
 import wallpaper from "@/assets/wallpaper.jpg";
 import Taskbar from "@/components/taskbar/Taskbar";
+import { useWindowManager } from "@/stores/windowStore";
+import Window from "@/components/window/Window";
+import AppRouter from "@/components/apps/AppRouter";
 
 function App() {
   const backgroundStyles = {
@@ -7,13 +10,18 @@ function App() {
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
-
+  const { windows } = useWindowManager();
   return (
-    <div className="h-screen w-screen" style={backgroundStyles}>
-      <div className="w-full flex flex-col items-center justify-center">
+    <main className="h-screen w-screen overflow-hidden" style={backgroundStyles}>
+      {Object.values(windows).map((window) => (
+        <Window key={window.id} appType={window.id}>
+          <AppRouter appType={window.id} />
+        </Window>
+      ))}
+      <div className="w-full absolute top-0 z-[1000] flex flex-col items-center justify-center">
         <Taskbar />
       </div>
-    </div>
+    </main>
   );
 }
 
