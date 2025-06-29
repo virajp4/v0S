@@ -28,7 +28,6 @@ class SoundManager {
         audio.preload = "auto";
         audio.volume = this.volume;
 
-        // Wait for the audio to be ready
         await new Promise<void>((resolve, reject) => {
           const onCanPlay = () => {
             audio.removeEventListener("canplaythrough", onCanPlay);
@@ -45,11 +44,10 @@ class SoundManager {
           audio.addEventListener("canplaythrough", onCanPlay);
           audio.addEventListener("error", onError);
 
-          // Fallback timeout
           setTimeout(() => {
             audio.removeEventListener("canplaythrough", onCanPlay);
             audio.removeEventListener("error", onError);
-            resolve(); // Resolve anyway to not block initialization
+            resolve();
           }, 2000);
         });
 
@@ -72,7 +70,6 @@ class SoundManager {
     }
 
     try {
-      // Reset audio to beginning and play
       audio.currentTime = 0;
       audio.volume = this.volume;
       audio.play().catch((error) => {
@@ -103,13 +100,9 @@ class SoundManager {
   }
 }
 
-// Export singleton instance
 export const soundManager = new SoundManager();
 
-// Initialize sound system
-soundManager.initialize().catch(() => {
-  // Sound system initialization failed
-});
+soundManager.initialize();
 
 if (typeof window !== "undefined") {
   (window as any).soundManager = soundManager;

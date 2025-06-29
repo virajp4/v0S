@@ -8,8 +8,8 @@ export interface WindowState {
   id: AppType;
   title: string;
   icon: ElementType;
-  x?: number;
-  y?: number;
+  x: number;
+  y: number;
   width: number;
   height: number;
   zIndex: number;
@@ -55,8 +55,8 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
         id: appType,
         title: APP_CONFIG[appType].title,
         icon: APP_CONFIG[appType].icon,
-        x: APP_CONFIG[appType].x ?? 25,
-        y: APP_CONFIG[appType].y ?? 25,
+        x: APP_CONFIG[appType].x,
+        y: APP_CONFIG[appType].y,
         width: APP_CONFIG[appType].width,
         height: APP_CONFIG[appType].height,
         zIndex: newTopZIndex,

@@ -9,7 +9,7 @@ export default function AppBar() {
   const { openWindow } = useWindowManager();
 
   return (
-    <div className={cn(taskbarStyles, "gap-1")}>
+    <div className={cn(taskbarStyles, "gap-1 px-1.5")}>
       {Object.entries(APP_CONFIG).map(([appId, appConfig]) => {
         const AppIcon = appConfig.icon;
         return (

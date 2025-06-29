@@ -22,7 +22,7 @@ export function TaskbarButton({
     <Button
       variant="ghost"
       size="icon"
-      className="w-7 h-7 hover:bg-gray-400/40 active:bg-gray-400/80 rounded-sm"
+      className="w-7 h-7 hover:bg-gray-400/70 active:bg-gray-400/85 rounded-sm transition-all duration-250"
       onMouseEnter={(e) => {
         if (onHoverSound) {
           soundManager.play(onHoverSound);

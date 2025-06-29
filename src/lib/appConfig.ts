@@ -6,13 +6,17 @@ export const APP_CONFIG: Record<AppType, Omit<WindowState, "id" | "zIndex" | "is
   [AppType.Terminal]: {
     title: "Terminal",
     icon: SquareTerminal,
+    x: 25,
+    y: 25,
     width: 600,
     height: 400,
   },
   [AppType.TextEditor]: {
     title: "Text Editor",
     icon: FilePenLine,
-    width: 800,
-    height: 600,
+    x: 25,
+    y: 25,
+    width: 400,
+    height: 500,
   },
 };

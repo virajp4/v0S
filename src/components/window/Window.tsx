@@ -46,7 +46,7 @@ export default function Window({ appType, children }: WindowProps) {
   if (!windowState) {
     return null;
   }
-  const { x = 25, y = 25, width, height, title, zIndex } = windowState;
+  const { x, y, width, height, title, zIndex } = windowState;
   return (
     <Rnd
       size={{ width, height }}
@@ -54,6 +54,7 @@ export default function Window({ appType, children }: WindowProps) {
       onDragStart={onDragStart}
       onDragStop={onDragStop}
       onResizeStop={onResizeStop}
+      onMouseDown={() => setActiveWindow(appType)}
       bounds="window"
       minWidth={300}
       minHeight={200}
