@@ -1,5 +1,6 @@
 import { useWindowManager } from "@/stores/windowStore";
 import { AppType } from "@/lib/types";
+import { Button } from "@/components/ui/button";
 
 interface WindowTitleProps {
   appType: AppType;
@@ -9,14 +10,17 @@ interface WindowTitleProps {
 export default function WindowTitle({ appType, title }: WindowTitleProps) {
   const { closeWindow } = useWindowManager();
   return (
-    <div className="window-handle h-8 flex items-center justify-between px-2 cursor-move select-none">
-      <span className="text-white text-xs font-medium">{title}</span>
-      <button
+    <div className="h-8 flex items-center justify-between gap-2 px-2 select-none">
+      <span className="text-white text-xs font-medium window-handle cursor-move w-full">
+        {title}
+      </span>
+      <Button
         onClick={() => {
           closeWindow(appType);
         }}
-        className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
-      ></button>
+        size="icon"
+        className="size-3 px-2.5 bg-red-400 hover:bg-red-500 cursor-pointer transition-colors duration-200"
+      ></Button>
     </div>
   );
 }

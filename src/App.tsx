@@ -3,6 +3,7 @@ import Taskbar from "@/components/taskbar/Taskbar";
 import { useWindowManager } from "@/stores/windowStore";
 import Window from "@/components/window/Window";
 import AppRouter from "@/components/apps/AppRouter";
+import AppBar from "@/components/taskbar/AppBar";
 
 function App() {
   const backgroundStyles = {
@@ -13,13 +14,16 @@ function App() {
   const { windows } = useWindowManager();
   return (
     <main className="h-screen w-screen overflow-hidden" style={backgroundStyles}>
+      <div className="w-full absolute top-2 flex justify-center">
+        <Taskbar />
+      </div>
       {Object.values(windows).map((window) => (
         <Window key={window.id} appType={window.id}>
           <AppRouter appType={window.id} />
         </Window>
       ))}
-      <div className="w-full absolute top-0 z-[1000] flex flex-col items-center justify-center">
-        <Taskbar />
+      <div className="w-full absolute bottom-2 flex justify-center">
+        <AppBar />
       </div>
     </main>
   );

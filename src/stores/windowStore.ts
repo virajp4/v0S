@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { AppType } from "@/lib/types";
 import { APP_CONFIG } from "@/lib/appConfig";
-import type { ComponentType } from "react";
+import type { ElementType } from "react";
 
 export interface WindowState {
   id: AppType;
   title: string;
-  icon?: ComponentType<{ size: number }>;
-  x: number;
-  y: number;
+  icon: ElementType;
+  x?: number;
+  y?: number;
   width: number;
   height: number;
   zIndex: number;
@@ -28,35 +28,12 @@ interface WindowStore {
   ) => void;
 }
 
-const initialWindows: Record<string, WindowState> = {
-  [AppType.Terminal]: {
-    id: AppType.Terminal,
-    title: APP_CONFIG[AppType.Terminal].title,
-    icon: APP_CONFIG[AppType.Terminal].icon,
-    x: APP_CONFIG[AppType.Terminal].x,
-    y: APP_CONFIG[AppType.Terminal].y,
-    width: APP_CONFIG[AppType.Terminal].width,
-    height: APP_CONFIG[AppType.Terminal].height,
-    zIndex: 101,
-    isActive: true,
-  },
-  [AppType.TextEditor]: {
-    id: AppType.TextEditor,
-    title: APP_CONFIG[AppType.TextEditor].title,
-    icon: APP_CONFIG[AppType.TextEditor].icon,
-    x: APP_CONFIG[AppType.TextEditor].x,
-    y: APP_CONFIG[AppType.TextEditor].y,
-    width: APP_CONFIG[AppType.TextEditor].width,
-    height: APP_CONFIG[AppType.TextEditor].height,
-    zIndex: 100,
-    isActive: false,
-  },
-};
+const initialWindows: Record<string, WindowState> = {};
 
 export const useWindowManager = create<WindowStore>((set, get) => ({
   windows: initialWindows,
-  activeWindowId: AppType.Terminal,
-  topZIndex: 101,
+  activeWindowId: null,
+  topZIndex: 100,
   openWindow: (appType) => {
     const { windows, setActiveWindow } = get();
     if (windows[appType]) {
@@ -67,8 +44,8 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
       id: appType,
       title: APP_CONFIG[appType].title,
       icon: APP_CONFIG[appType].icon,
-      x: APP_CONFIG[appType].x,
-      y: APP_CONFIG[appType].y,
+      x: APP_CONFIG[appType].x ?? 25,
+      y: APP_CONFIG[appType].y ?? 25,
       width: APP_CONFIG[appType].width,
       height: APP_CONFIG[appType].height,
       zIndex: get().topZIndex + 1,

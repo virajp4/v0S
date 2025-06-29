@@ -192,12 +192,12 @@ function Desktop() {
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-gray-800">
       {/* Button to open the terminal window */}
-      <button
+      <Button
         onClick={handleOpenTerminal}
         className="absolute top-4 left-4 rounded bg-blue-500 p-2 text-white"
       >
         Open Terminal
-      </button>
+      </Button>
 
       {/* Render all open windows */}
       {Object.values(windows).map((window) => (

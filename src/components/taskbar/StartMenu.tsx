@@ -1,28 +1,23 @@
-import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Settings, Volume2 } from "lucide-react";
+import { ShipWheel, Info, Settings } from "lucide-react";
 import { TaskbarButton } from "./TaskbarButton";
 
-export default function VolumeSlider() {
+export default function StartMenu() {
   return (
     <Popover>
       <PopoverTrigger>
         <TaskbarButton>
-          <Volume2 size={16} />
+          <ShipWheel size={16} />
         </TaskbarButton>
       </PopoverTrigger>
       <PopoverContent
         sideOffset={8}
-        className="w-10 bg-white/85 flex flex-col items-center gap-1 pb-1 z-[1001]"
+        className="w-fit bg-white/85 p-1 z-[1001] flex flex-col rounded-sm"
+        align="start"
       >
-        <Slider
-          defaultValue={[50]}
-          max={100}
-          min={0}
-          step={5}
-          orientation="vertical"
-          inverted={false}
-        />
+        <TaskbarButton>
+          <Info size={16} />
+        </TaskbarButton>
         <TaskbarButton>
           <Settings size={16} />
         </TaskbarButton>
