@@ -9,14 +9,11 @@ export default function AppBar() {
   const { openWindow } = useWindowManager();
 
   return (
-    <div className={cn(taskbarStyles, "gap-2")}>
+    <div className={cn(taskbarStyles, "gap-1")}>
       {Object.entries(APP_CONFIG).map(([appId, appConfig]) => {
         const AppIcon = appConfig.icon;
         return (
-          <TaskbarButton
-            key={appId}
-            onClick={() => openWindow(appId as AppType)}
-          >
+          <TaskbarButton key={appId} onClick={() => openWindow(appId as AppType)}>
             <AppIcon />
           </TaskbarButton>
         );

@@ -46,7 +46,7 @@ export default function Window({ appType, children }: WindowProps) {
   if (!windowState) {
     return null;
   }
-  const { x, y, width, height, title, zIndex } = windowState;
+  const { x = 25, y = 25, width, height, title, zIndex } = windowState;
   return (
     <Rnd
       size={{ width, height }}

@@ -1,11 +1,23 @@
+import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ShipWheel, Info, Settings } from "lucide-react";
 import { TaskbarButton } from "./TaskbarButton";
+import { soundManager } from "@/lib/soundManager";
+import { SoundType } from "@/lib/types";
 
 export default function StartMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (open) {
+      soundManager.play(SoundType.MenuOpen);
+    }
+  };
+
   return (
-    <Popover>
-      <PopoverTrigger>
+    <Popover open={isOpen} onOpenChange={handleOpenChange}>
+      <PopoverTrigger asChild>
         <TaskbarButton>
           <ShipWheel size={16} />
         </TaskbarButton>

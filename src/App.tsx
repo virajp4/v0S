@@ -1,13 +1,13 @@
-import wallpaper from "@/assets/wallpaper.jpg";
 import Taskbar from "@/components/taskbar/Taskbar";
 import { useWindowManager } from "@/stores/windowStore";
 import Window from "@/components/window/Window";
 import AppRouter from "@/components/apps/AppRouter";
 import AppBar from "@/components/taskbar/AppBar";
+import starryHill from "/wallpapers/starry_hill.jpg";
 
 function App() {
   const backgroundStyles = {
-    backgroundImage: `url(${wallpaper})`,
+    backgroundImage: `url(${starryHill})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
   };

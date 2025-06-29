@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { AppType } from "@/lib/types";
+import { AppType, SoundType } from "@/lib/types";
 import { APP_CONFIG } from "@/lib/appConfig";
+import { soundManager } from "@/lib/soundManager";
 import type { ElementType } from "react";
 
 export interface WindowState {
@@ -28,66 +29,40 @@ interface WindowStore {
   ) => void;
 }
 
-const initialWindows: Record<string, WindowState> = {};
-
 export const useWindowManager = create<WindowStore>((set, get) => ({
-  windows: initialWindows,
+  windows: {},
   activeWindowId: null,
   topZIndex: 100,
+
   openWindow: (appType) => {
-    const { windows, setActiveWindow } = get();
+    const { windows, activeWindowId, setActiveWindow } = get();
     if (windows[appType]) {
       setActiveWindow(appType);
       return;
     }
-    const newWindow: WindowState = {
-      id: appType,
-      title: APP_CONFIG[appType].title,
-      icon: APP_CONFIG[appType].icon,
-      x: APP_CONFIG[appType].x ?? 25,
-      y: APP_CONFIG[appType].y ?? 25,
-      width: APP_CONFIG[appType].width,
-      height: APP_CONFIG[appType].height,
-      zIndex: get().topZIndex + 1,
-      isActive: true,
-    };
-    set((state) => ({
-      windows: { ...state.windows, [appType]: newWindow },
-      activeWindowId: appType,
-      topZIndex: newWindow.zIndex,
-    }));
-    setActiveWindow(appType);
-  },
-  closeWindow: (appType) => {
+
+    soundManager.play(SoundType.WindowOpen);
+
     set((state) => {
-      const newWindows = { ...state.windows };
-      delete newWindows[appType];
-      return {
-        windows: newWindows,
-        activeWindowId: state.activeWindowId === appType ? null : state.activeWindowId,
-      };
-    });
-  },
-  setActiveWindow: (appType) => {
-    set((state) => {
-      if (state.activeWindowId === appType) {
-        return {};
-      }
       const newTopZIndex = state.topZIndex + 1;
       const newWindows = { ...state.windows };
-      if (state.activeWindowId && newWindows[state.activeWindowId]) {
-        newWindows[state.activeWindowId] = {
-          ...newWindows[state.activeWindowId],
-          isActive: false,
-        };
+
+      if (activeWindowId && newWindows[activeWindowId]) {
+        newWindows[activeWindowId].isActive = false;
       }
-      if (newWindows[appType]) {
-        newWindows[appType] = {
-          ...newWindows[appType],
-          isActive: true,
-          zIndex: newTopZIndex,
-        };
-      }
+
+      newWindows[appType] = {
+        id: appType,
+        title: APP_CONFIG[appType].title,
+        icon: APP_CONFIG[appType].icon,
+        x: APP_CONFIG[appType].x ?? 25,
+        y: APP_CONFIG[appType].y ?? 25,
+        width: APP_CONFIG[appType].width,
+        height: APP_CONFIG[appType].height,
+        zIndex: newTopZIndex,
+        isActive: true,
+      };
+
       return {
         windows: newWindows,
         activeWindowId: appType,
@@ -95,6 +70,55 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
       };
     });
   },
+
+  closeWindow: (appType) => {
+    soundManager.play(SoundType.WindowClose);
+    set((state) => {
+      const newWindows = { ...state.windows };
+      delete newWindows[appType];
+      let newActiveId = state.activeWindowId;
+      if (state.activeWindowId === appType) {
+        newActiveId = Object.keys(newWindows).sort(
+          (a, b) => newWindows[b].zIndex - newWindows[a].zIndex
+        )[0] as AppType | null;
+
+        if (newActiveId && newWindows[newActiveId]) {
+          newWindows[newActiveId].isActive = true;
+        }
+      }
+      return {
+        windows: newWindows,
+        activeWindowId: newActiveId,
+      };
+    });
+  },
+
+  setActiveWindow: (appType) => {
+    set((state) => {
+      if (state.activeWindowId === appType) {
+        return {};
+      }
+
+      const newTopZIndex = state.topZIndex + 1;
+      const newWindows = { ...state.windows };
+
+      if (state.activeWindowId && newWindows[state.activeWindowId]) {
+        newWindows[state.activeWindowId].isActive = false;
+      }
+
+      if (newWindows[appType]) {
+        newWindows[appType].isActive = true;
+        newWindows[appType].zIndex = newTopZIndex;
+      }
+
+      return {
+        windows: newWindows,
+        activeWindowId: appType,
+        topZIndex: newTopZIndex,
+      };
+    });
+  },
+
   updateWindow: (appType, updates) => {
     set((state) => ({
       windows: {
