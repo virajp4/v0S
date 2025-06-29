@@ -56,8 +56,6 @@ export default function Window({ appType, children }: WindowProps) {
       onResizeStop={onResizeStop}
       onMouseDown={() => setActiveWindow(appType)}
       bounds="window"
-      minWidth={300}
-      minHeight={200}
       dragHandleClassName="window-handle"
       style={{ zIndex }}
       className={

@@ -15,19 +15,21 @@ const getRandomIcon = () => {
 
 export default function StartMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [Icon, setIcon] = useState(() => getRandomIcon());
+  const [Icon, setIcon] = useState(getRandomIcon);
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
-    if (open) {
-      soundManager.play(SoundType.MenuOpen);
-    }
+  };
+
+  const handleClick = () => {
+    setIcon(getRandomIcon);
+    soundManager.play(SoundType.MenuOpen);
   };
 
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
-      <PopoverTrigger>
-        <TaskbarButton onClick={() => setIcon(getRandomIcon)}>
+      <PopoverTrigger asChild>
+        <TaskbarButton onClick={handleClick}>
           <AnimatePresence mode="wait">
             <motion.div
               key={(Icon as LucideIcon).displayName}

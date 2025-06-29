@@ -50,15 +50,39 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
       if (activeWindowId && newWindows[activeWindowId]) {
         newWindows[activeWindowId].isActive = false;
       }
+      const appConfig = APP_CONFIG[appType];
+      let { x, y, width, height } = appConfig;
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      const PADDING = 25;
+      const TASKBAR_WIDTH = 220;
+      const TASKBAR_HEIGHT = 50;
+      if (width > screenWidth) {
+        width = screenWidth - PADDING * 2;
+        x = PADDING;
+      }
+      const totalWidthAfterPadding = width + PADDING * 2;
+      const distanceBetweenEdgeAndTaskbar = (screenWidth - TASKBAR_WIDTH) / 2;
+      const canWindowFitInEmptySpace = totalWidthAfterPadding < distanceBetweenEdgeAndTaskbar;
+      if (!canWindowFitInEmptySpace) {
+        const heightWithTaskbarAndPadding = TASKBAR_HEIGHT + PADDING;
+        y = heightWithTaskbarAndPadding;
+        // Since there is a taskbar at the bottom as well (AppBar),
+        // we need to subtract twice the heightWithTaskbarAndPadding.
+        if (height > screenHeight - heightWithTaskbarAndPadding * 2) {
+          height = screenHeight - heightWithTaskbarAndPadding * 2;
+        }
+      }
 
       newWindows[appType] = {
         id: appType,
-        title: APP_CONFIG[appType].title,
-        icon: APP_CONFIG[appType].icon,
-        x: APP_CONFIG[appType].x,
-        y: APP_CONFIG[appType].y,
-        width: APP_CONFIG[appType].width,
-        height: APP_CONFIG[appType].height,
+        title: appConfig.title,
+        icon: appConfig.icon,
+        x,
+        y,
+        width,
+        height,
         zIndex: newTopZIndex,
         isActive: true,
       };
