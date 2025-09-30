@@ -17,6 +17,6 @@ export const APP_CONFIG: Record<AppType, Omit<WindowState, "id" | "zIndex" | "is
     x: 25,
     y: 25,
     width: 400,
-    height: 500,
+    height: 400,
   },
 };

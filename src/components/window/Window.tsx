@@ -63,7 +63,7 @@ export default function Window({ appType, children }: WindowProps) {
       }
     >
       <WindowTitle appType={appType} title={title} />
-      <div className="flex-grow p-1">{children}</div>
+      <div className="h-[calc(100%-32px)]">{children}</div>
     </Rnd>
   );
 }
