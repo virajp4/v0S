@@ -1,54 +1,66 @@
-# React + TypeScript + Vite
+# v0S - Desktop Environment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimalistic desktop environment built with React, TypeScript, and Vite featuring a floating window system with sound effects and a sleek UI.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Floating Window System**: Draggable and resizable windows with focus management
+- **Singleton Windows**: Each app type can only have one instance open
+- **Sound Effects**: Custom sound feedback for window interactions
+- **Responsive Design**: Auto-adjusts window size and position based on screen dimensions
+- **Custom Taskbars**: Top taskbar with system controls and bottom app launcher
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **Zustand** - State management
+- **react-rnd** - Drag and resize functionality
+- **TailwindCSS 4** - Styling
+- **Framer Motion** - Animations
+- **Radix UI** - UI components
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
 ```
+src/
+├── components/
+│   ├── apps/          # Application components
+│   ├── taskbar/       # Taskbar components
+│   ├── ui/            # Reusable UI components
+│   └── window/        # Window system components
+├── lib/
+│   ├── appConfig.ts   # App configurations
+│   ├── types.ts       # TypeScript types
+│   ├── soundManager.ts # Sound system
+│   └── utils.ts       # Utility functions
+└── stores/
+    └── windowStore.ts # Window state management
+```
+
+## Documentation
+
+- [**BASICS.md**](docs/BASICS.md) - Development guidelines and coding conventions
+- [**WINDOW_SYSTEM.md**](docs/WINDOW_SYSTEM.md) - Window system architecture and API
+
+## Current Apps
+
+- **Terminal** - Terminal emulator interface
+- **Text Editor** - Basic text editing application
