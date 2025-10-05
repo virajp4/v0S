@@ -142,6 +142,25 @@
   border-radius: var(--radius-lg);
 }
 
+/* TipTap Editor Heading Styles */
+.tiptap h1 {
+  font-size: 1.75em;
+  font-weight: bold;
+  margin: 0.2em 0;
+}
+
+.tiptap h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.15em 0;
+}
+
+.tiptap h3 {
+  font-size: 1.15em;
+  font-weight: bold;
+  margin: 0.1em 0;
+}
+
 /* TipTap Editor List Styles */
 .tiptap ul,
 .tiptap ol {

@@ -19,7 +19,7 @@ function App() {
       </div>
       {Object.values(windows).map((window) => (
         <Window key={window.id} appType={window.id}>
-          <AppRouter appType={window.id} />
+          <AppRouter window={window} />
         </Window>
       ))}
       <div className="w-full absolute bottom-2 flex justify-center">

@@ -20,6 +20,7 @@ interface WindowStore {
   windows: Record<string, WindowState>;
   activeWindowId: AppType | null;
   topZIndex: number;
+  positionOffset: number;
   openWindow: (appType: AppType) => void;
   closeWindow: (appType: AppType) => void;
   setActiveWindow: (appType: AppType) => void;
@@ -29,10 +30,13 @@ interface WindowStore {
   ) => void;
 }
 
+const POSITION_OFFSET_INCREMENT = 30;
+
 export const useWindowManager = create<WindowStore>((set, get) => ({
   windows: {},
   activeWindowId: null,
   topZIndex: 100,
+  positionOffset: 0,
 
   openWindow: (appType) => {
     const { windows, activeWindowId, setActiveWindow } = get();
@@ -58,16 +62,21 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
       const PADDING = 25;
       const TASKBAR_WIDTH = 220;
       const TASKBAR_HEIGHT = 50;
+
+      // Apply cascading offset
+      x += state.positionOffset;
+      y += state.positionOffset;
+
       if (width > screenWidth) {
         width = screenWidth - PADDING * 2;
-        x = PADDING;
+        x = PADDING + state.positionOffset;
       }
       const totalWidthAfterPadding = width + PADDING * 2;
       const distanceBetweenEdgeAndTaskbar = (screenWidth - TASKBAR_WIDTH) / 2;
       const canWindowFitInEmptySpace = totalWidthAfterPadding < distanceBetweenEdgeAndTaskbar;
       if (!canWindowFitInEmptySpace) {
         const heightWithTaskbarAndPadding = TASKBAR_HEIGHT + PADDING;
-        y = heightWithTaskbarAndPadding;
+        y = heightWithTaskbarAndPadding + state.positionOffset;
         // Since there is a taskbar at the bottom as well (AppBar),
         // we need to subtract twice the heightWithTaskbarAndPadding.
         if (height > screenHeight - heightWithTaskbarAndPadding * 2) {
@@ -91,6 +100,7 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
         windows: newWindows,
         activeWindowId: appType,
         topZIndex: newTopZIndex,
+        positionOffset: state.positionOffset + POSITION_OFFSET_INCREMENT,
       };
     });
   },
@@ -113,6 +123,7 @@ export const useWindowManager = create<WindowStore>((set, get) => ({
       return {
         windows: newWindows,
         activeWindowId: newActiveId,
+        positionOffset: Math.max(0, state.positionOffset - POSITION_OFFSET_INCREMENT),
       };
     });
   },
